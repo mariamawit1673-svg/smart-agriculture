@@ -7,7 +7,7 @@ const recommendRoutes = require("./routes/recommend");
 const cropRoutes = require("./routes/crops");
 const profileRoutes = require("./routes/profiles");
 const historyRoutes = require("./routes/history");
-const pestRoutes = require("./routes/pests");
+const pestRoutes = require("./routes/pestRoutes");
 const advisoryRoutes = require("./routes/advisory");
 
 const app = express();
