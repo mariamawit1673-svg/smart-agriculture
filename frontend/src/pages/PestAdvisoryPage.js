@@ -68,7 +68,7 @@ function SymptomChecker({ user }) {
     <div className="pest-checker">
       <form className="pest-checker-form" onSubmit={handleDiagnose}>
         <label>
-          Crop Name (type any crop)`n          <input type="text" value={crop} onChange={(e) => setCrop(e.target.value)} placeholder="e.g. Banana, Sugarcane, Onion..." list="crop-list" required />`n          <datalist id="crop-list">{CROPS.map((c) => <option key={c} value={c} />)}</datalist>
+          Crop Name (type any crop)          <input type="text" value={crop} onChange={(e) => setCrop(e.target.value)} placeholder="e.g. Banana, Sugarcane, Onion..." list="crop-list" required />          <datalist id="crop-list">{CROPS.map((c) => <option key={c} value={c} />)}</datalist>
         </label>
         <label>
           Describe Symptoms
@@ -202,7 +202,7 @@ function PestLibrary() {
         <div className="pest-grid">
           {pests.map((pest) => (
             <article className="pest-card" key={pest._id}>
-              <div className="pest-card-img-placeholder">ðŸŒ¿</div>
+              <div className="pest-card-img-placeholder">information</div>
               <div className="pest-card-body">
                 <div className="pest-card-top">
                   <span className="pest-crop-label">{pest.crop}</span>
