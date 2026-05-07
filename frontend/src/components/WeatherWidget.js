@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { API_BASE } from "../constants";
+import { useLang } from "../LanguageContext";
 
 export default function WeatherWidget({ onWeatherReady }) {
+  const { t } = useLang();
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -47,19 +49,13 @@ export default function WeatherWidget({ onWeatherReady }) {
   return (
     <div className="weather-widget">
       <div className="weather-widget-header">
-        <span className="eyebrow">Live Weather</span>
+        <span className="eyebrow">{t("liveWeather")}</span>
         <form onSubmit={handleCitySearch} className="weather-city-form">
-          <input
-            type="text"
-            placeholder="Enter city..."
-            value={cityInput}
-            onChange={(e) => setCityInput(e.target.value)}
-          />
+          <input type="text" placeholder={t("enterCity")} value={cityInput} onChange={(e) => setCityInput(e.target.value)} />
           <button type="submit" disabled={loading}>Go</button>
         </form>
       </div>
-
-      {loading && <p className="weather-loading">Detecting location...</p>}
+      {loading && <p className="weather-loading">{t("detectingLocation")}</p>}
       {error && <p className="weather-error">{error}</p>}
 
       {weather && !loading && (
@@ -80,13 +76,12 @@ export default function WeatherWidget({ onWeatherReady }) {
           </div>
 
           <div className="weather-details">
-            <span>💧 Humidity: {weather.humidity}%</span>
-            <span>🌡 Feels like: {weather.feelsLike}°C</span>
-            <span>💨 Wind: {weather.windSpeed} m/s</span>
+            <span>💧 {t("humidity")}: {weather.humidity}%</span>
+            <span>🌡 {t("feelsLike")}: {weather.feelsLike}°C</span>
+            <span>💨 {t("wind")}: {weather.windSpeed} m/s</span>
           </div>
-
           <div className="weather-farming">
-            <p className="weather-farming-title">Farming Conditions Detected</p>
+            <p className="weather-farming-title">{t("farmingConditions")}</p>
             <div className="weather-farming-tags">
               <span className="wtag">🌱 Season: <b>{f.season}</b></span>
               <span className="wtag">🌡 Temp: <b>{f.temperature}</b></span>

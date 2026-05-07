@@ -1,50 +1,27 @@
-import SelectField from "../components/SelectField";
+﻿import SelectField from "../components/SelectField";
 import { rainfallOptions, seasonOptions, soilOptions, temperatureOptions } from "../constants";
+import { useLang } from "../LanguageContext";
 
-function RecommendationPage({
-  form,
-  latestRecommendation,
-  onFormChange,
-  onSubmit,
-}) {
+function RecommendationPage({ form, latestRecommendation, onFormChange, onSubmit }) {
+  const { t } = useLang();
   return (
     <section className="recommendation-layout">
       <div className="panel recommendation-intro">
         <p className="eyebrow">Decision Support</p>
-        <h2>Crop Recommendation</h2>
-        <p>
-          Enter the farm conditions below. The system compares soil, season, rainfall,
-          temperature, and irrigation availability against stored crop knowledge.
-        </p>
+        <h2>{t("cropRecommendation")}</h2>
       </div>
       <div className="panel">
-      <form onSubmit={onSubmit} className="form-grid">
-        <SelectField label="Soil type" value={form.soilType} onChange={(value) => onFormChange({ ...form, soilType: value })} options={soilOptions} />
-        <SelectField label="Season" value={form.season} onChange={(value) => onFormChange({ ...form, season: value })} options={seasonOptions} />
-        <SelectField label="Rainfall" value={form.rainfall} onChange={(value) => onFormChange({ ...form, rainfall: value })} options={rainfallOptions} />
-        <SelectField label="Temperature" value={form.temperature} onChange={(value) => onFormChange({ ...form, temperature: value })} options={temperatureOptions} />
-        <label>
-          Location
-          <input value={form.location} onChange={(event) => onFormChange({ ...form, location: event.target.value })} />
-        </label>
-        <label className="checkbox-label">
-          <input type="checkbox" checked={form.irrigationAvailable} onChange={(event) => onFormChange({ ...form, irrigationAvailable: event.target.checked })} />
-          Irrigation available
-        </label>
-        <button type="submit">Get Recommendation</button>
-      </form>
+        <form onSubmit={onSubmit} className="form-grid">
+          <SelectField label={t("soilType")} value={form.soilType} onChange={(v) => onFormChange({ ...form, soilType: v })} options={soilOptions} />
+          <SelectField label={t("season")} value={form.season} onChange={(v) => onFormChange({ ...form, season: v })} options={seasonOptions} />
+          <SelectField label={t("rainfall")} value={form.rainfall} onChange={(v) => onFormChange({ ...form, rainfall: v })} options={rainfallOptions} />
+          <SelectField label={t("temperature")} value={form.temperature} onChange={(v) => onFormChange({ ...form, temperature: v })} options={temperatureOptions} />
+          <label>{t("location")}<input value={form.location} onChange={(e) => onFormChange({ ...form, location: e.target.value })} /></label>
+          <label className="checkbox-label"><input type="checkbox" checked={form.irrigationAvailable} onChange={(e) => onFormChange({ ...form, irrigationAvailable: e.target.checked })} />{t("irrigationAvailable")}</label>
+          <button type="submit">{t("getRecommendation")}</button>
+        </form>
       </div>
-
-      {latestRecommendation && (
-        <div className="result-box recommendation-result">
-          <h3>Recommended crops</h3>
-          <p>{latestRecommendation.recommendedCrops.join(", ")}</p>
-          <h3>Advice</h3>
-          <ul>
-            {latestRecommendation.advice.map((item) => <li key={item}>{item}</li>)}
-          </ul>
-        </div>
-      )}
+      {latestRecommendation && (<div className="result-box recommendation-result"><h3>{t("recommendedCrops")}</h3><p>{latestRecommendation.recommendedCrops.join(", ")}</p><h3>{t("advice")}</h3><ul>{latestRecommendation.advice.map((item) => <li key={item}>{item}</li>)}</ul></div>)}
     </section>
   );
 }
