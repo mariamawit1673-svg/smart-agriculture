@@ -1732,3 +1732,178 @@ dd {
   font-size: 13px;
   font-weight: 500;
 }
+
+/* ── Language Switcher ──────────────────────────────────────── */
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 3px;
+}
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lang-btn.active {
+  background: rgba(255,255,255,0.9);
+  color: #1a5c2a;
+}
+.lang-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── Sidebar Language Switcher ──────────────────────────────── */
+.sidebar-lang {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 4px;
+}
+.sidebar-lang .lang-btn {
+  flex: 1;
+  text-align: center;
+  padding: 5px 4px;
+  font-size: 11px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  border: none;
+  cursor: pointer;
+}
+.sidebar-lang .lang-btn.active {
+  background: rgba(255,255,255,0.9);
+  color: #1a5c2a;
+  font-weight: 700;
+}
+
+/* ── Auth Page ──────────────────────────────────────────────── */
+.auth-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .auth-wrapper { grid-template-columns: 1fr; }
+  .auth-left { display: none; }
+}
+
+/* Left */
+.auth-left {
+  background: linear-gradient(145deg, #1a5c2a, #2e7d32, #388e3c);
+  color: #fff;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.auth-brand-icon { font-size: 2rem; }
+.auth-brand strong { font-size: 1.1rem; display: block; }
+.auth-brand small { font-size: 12px; opacity: 0.8; }
+.auth-left-title { font-size: 2rem; font-weight: 800; margin: 0; line-height: 1.2; }
+.auth-left-desc { font-size: 15px; opacity: 0.85; line-height: 1.6; margin: 0; }
+.auth-features { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.auth-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+/* Right */
+.auth-right {
+  background: var(--bg, #f7f9f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+.auth-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+}
+.auth-card-header { margin-bottom: 28px; }
+.auth-card-header h3 { font-size: 1.4rem; margin: 0 0 6px; }
+.auth-card-header p { font-size: 13px; color: #666; margin: 0; }
+.auth-switch-btn {
+  background: none;
+  border: none;
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  text-decoration: underline;
+}
+.auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-field { display: flex; flex-direction: column; gap: 6px; }
+.auth-field label { font-size: 13px; font-weight: 600; color: #444; }
+.auth-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafafa;
+  transition: border-color 0.2s;
+}
+.auth-input-wrap:focus-within { border-color: #2e7d32; background: #fff; }
+.auth-input-icon { padding: 0 10px; font-size: 16px; }
+.auth-input-wrap input,
+.auth-input-wrap select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 11px 10px 11px 0;
+  font-size: 14px;
+  outline: none;
+}
+.auth-eye-btn {
+  background: none;
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.auth-submit-btn {
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: opacity 0.2s;
+}
+.auth-submit-btn:hover { opacity: 0.9; }
+.auth-back { text-align: center; margin-top: 16px; font-size: 13px; }
+
+/* Register left panel - slightly different gradient */
+.auth-left-register {
+  background: linear-gradient(145deg, #1b5e20, #2e7d32, #1565c0);
+}
