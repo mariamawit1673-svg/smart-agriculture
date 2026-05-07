@@ -1,4 +1,33 @@
+import { useState } from "react";
+import WeatherWidget from "../components/WeatherWidget";
+import { API_BASE } from "../constants";
+
 function DashboardPage({ user, profile, history, crops, onNavigate }) {
+  const [weatherRec, setWeatherRec] = useState(null);
+  const [recLoading, setRecLoading] = useState(false);
+
+  async function handleWeatherReady(weatherData) {
+    const f = weatherData.farming;
+    setRecLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/recommend`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          soilType: f.soilHint,
+          season: f.season,
+          rainfall: f.rainfall,
+          temperature: f.temperature,
+          location: weatherData.location,
+          irrigationAvailable: false,
+          userId: user?.id,
+        }),
+      });
+      const data = await res.json();
+      setWeatherRec({ crops: data.recommendedCrops, advice: data.advice, location: weatherData.location });
+    } catch { /* silent */ }
+    finally { setRecLoading(false); }
+  }
   const recentRecommendation = history[0];
   const soilTypes = new Set(crops.flatMap((crop) => crop.soilTypes || [])).size;
   const profileFields = [
@@ -145,6 +174,46 @@ function DashboardPage({ user, profile, history, crops, onNavigate }) {
           <span>Pest Advisory</span>
           <span>History Tracking</span>
           <span>Admin Crop Data</span>
+        </div>
+      </div>
+
+      {/* ── Weather + Auto Recommendation ── */}
+      <div className="weather-section">
+        <div className="panel weather-panel">
+          <WeatherWidget onWeatherReady={handleWeatherReady} />
+        </div>
+
+        <div className="panel weather-rec-panel">
+          <p className="eyebrow">Auto Recommendation</p>
+          <h3>Crops for Current Weather</h3>
+          {recLoading && <p className="weather-loading">Analyzing weather conditions...</p>}
+          {!recLoading && !weatherRec && (
+            <p style={{ color: "var(--text-muted, #888)" }}>
+              Weather data will automatically recommend crops for your location.
+            </p>
+          )}
+          {!recLoading && weatherRec && (
+            <div>
+              <p style={{ marginBottom: "8px" }}>
+                Based on weather in <strong>{weatherRec.location}</strong>:
+              </p>
+              <div className="weather-crop-tags">
+                {weatherRec.crops.slice(0, 6).map((c) => (
+                  <span key={c} className="weather-crop-tag">{c}</span>
+                ))}
+              </div>
+              {weatherRec.advice?.slice(0, 2).map((a, i) => (
+                <p key={i} style={{ fontSize: "13px", marginTop: "8px", color: "var(--text-muted, #666)" }}>{a}</p>
+              ))}
+              <button
+                className="secondary-button"
+                style={{ marginTop: "12px" }}
+                onClick={() => onNavigate("recommend")}
+              >
+                Refine Recommendation
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
