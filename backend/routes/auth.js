@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const router = express.Router();
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// LOGIN — supports email or phone
+// LOGIN â€” supports email or phone
 router.post("/login", async (req, res) => {
     try {
         const { email, phone, password } = req.body;
@@ -62,6 +62,15 @@ router.post("/login", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+
+// GET all users (admin only)
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({}, '-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 module.exports = router;
