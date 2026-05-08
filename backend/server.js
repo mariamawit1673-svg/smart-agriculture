@@ -1,4 +1,4 @@
-require("dotenv").config();
+﻿require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -12,6 +12,7 @@ const pestRoutes = require("./routes/pestRoutes");
 const pestAIRoutes = require("./routes/pestAI");
 const advisoryRoutes = require("./routes/advisory");
 const weatherRoutes = require("./routes/weather");
+const marketRoutes = require("./routes/market");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ app.use("/api/pests", pestRoutes);
 app.use("/api/pests-ai", pestAIRoutes);
 app.use("/api/advisory", advisoryRoutes);
 app.use("/api/weather", weatherRoutes);
+app.use("/api/market", marketRoutes);
 
 mongoose.connect("mongodb://127.0.0.1:27017/smart_agriculture")
     .then(() => console.log("MongoDB Connected"))

@@ -17,6 +17,7 @@ import LandingPage from "./pages/LandingPage";
 import PestAdvisoryPage from "./pages/PestAdvisoryPage";
 import ProfilePage from "./pages/ProfilePage";
 import RecommendationPage from "./pages/RecommendationPage";
+import MarketplacePage from "./pages/MarketplacePage";
 
 import "./App.css";
 
@@ -29,6 +30,7 @@ function App() {
   const [authForm, setAuthForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     role: "farmer",
   });
@@ -208,6 +210,7 @@ function App() {
       return <ProfilePage profile={profile} onProfileChange={setProfile} />;
     if (activePage === "history") return <HistoryPage history={history} />;
     if (activePage === "crops") return <CropsPage crops={crops} />;
+    if (activePage === "market") return <MarketplacePage user={user} />;
 
     if (activePage === "admin") {
       return (
