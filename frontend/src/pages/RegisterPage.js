@@ -10,17 +10,15 @@ function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
       <div className="auth-left auth-left-register">
         <div className="auth-brand">
           <span className="auth-brand-icon">🌾</span>
-          <div>
-            <strong>Smart Agriculture</strong>
-            <small>Advisory System</small>
-          </div>
+          <div><strong>Smart Agriculture</strong><small>Advisory System</small></div>
         </div>
         <h2 className="auth-left-title">Join Us Today!</h2>
         <p className="auth-left-desc">Create your account and start getting smart crop recommendations tailored to your farm.</p>
         <div className="auth-features">
           <div className="auth-feature-item">✅ <span>Free to use</span></div>
+          <div className="auth-feature-item">🔒 <span>easy to use</span></div>
           <div className="auth-feature-item">🌍 <span>Works for any location</span></div>
-          <div className="auth-feature-item">📱 <span>Easy interface</span></div>
+          <div className="auth-feature-item">📱 <span>Phone or email signup</span></div>
           <div className="auth-feature-item">🔒 <span>Secure data</span></div>
         </div>
       </div>
@@ -53,10 +51,18 @@ function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
             </div>
 
             <div className="auth-field">
-              <label>{t("email")}</label>
+              <label>📱 Phone Number <span style={{color:"#888",fontSize:"12px"}}>(required if no email)</span></label>
+              <div className="auth-input-wrap">
+                <span className="auth-input-icon">📱</span>
+                <input type="tel" placeholder="+251 9XX XXX XXXX" value={authForm.phone || ""} onChange={(e) => onAuthFormChange({ ...authForm, phone: e.target.value })} />
+              </div>
+            </div>
+
+            <div className="auth-field">
+              <label>{t("email")} <span style={{color:"#888",fontSize:"12px"}}>(optional)</span></label>
               <div className="auth-input-wrap">
                 <span className="auth-input-icon">✉️</span>
-                <input type="email" placeholder="you@example.com" value={authForm.email} onChange={(e) => onAuthFormChange({ ...authForm, email: e.target.value })} required />
+                <input type="email" placeholder="you@example.com (optional)" value={authForm.email} onChange={(e) => onAuthFormChange({ ...authForm, email: e.target.value })} />
               </div>
             </div>
 

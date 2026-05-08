@@ -7,6 +7,7 @@ function Sidebar({ activePage, user, onNavigate, onLogout }) {
     { id: "dashboard", label: t("dashboard") },
     { id: "recommend", label: t("recommendation") },
     { id: "pest", label: t("pestAdvisory") },
+    { id: "market", label: " Marketplace" },
     { id: "profile", label: t("profile") },
     { id: "history", label: t("history") },
     { id: "crops", label: t("crops") },
