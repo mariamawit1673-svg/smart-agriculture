@@ -129,7 +129,7 @@ function App() {
     try {
       const path = authMode === "login" ? "/auth/login" : "/auth/register";
       const body = authMode === "login"
-        ? { email: authForm.email, password: authForm.password }
+        ? { email: authForm.email || undefined, phone: authForm.phone || undefined, password: authForm.password }
         : authForm;
       const data = await api(path, {
         method: "POST",

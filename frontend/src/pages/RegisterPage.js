@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useLang } from "../LanguageContext";
 
 const ROLES = [
-  { value: "farmer", icon: "🌾", label: "Farmer", desc: "Crop advisory, sell products, recommendations" },
-  { value: "buyer", icon: "🛒", label: "Buyer", desc: "Browse & buy farm products from marketplace" },
-  { value: "admin", icon: "🛠", label: "Admin", desc: "Manage users, crops, products & system" },
+  { value: "farmer", icon: "🌾", label: "Farmer", desc: "Advisory + sell products" },
+  { value: "buyer", icon: "🛒", label: "Buyer", desc: "Browse & buy products" },
+  { value: "admin", icon: "🛠", label: "Admin", desc: "Manage system" },
 ];
 
 function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
@@ -19,12 +19,12 @@ function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
           <div><strong>Smart Agriculture</strong><small>Advisory System</small></div>
         </div>
         <h2 className="auth-left-title">Join Us Today!</h2>
-        <p className="auth-left-desc">Choose your role and create your account to get started.</p>
+        <p className="auth-left-desc">Create your account using your phone number. Email is optional.</p>
         <div className="auth-features">
           <div className="auth-feature-item">🌾 <span>Farmer — advisory + marketplace</span></div>
           <div className="auth-feature-item">🛒 <span>Buyer — browse & buy products</span></div>
-          <div className="auth-feature-item">🛠 <span>Admin — manage the system</span></div>
-          <div className="auth-feature-item">🔒 <span>Secure & free to use</span></div>
+          <div className="auth-feature-item">🛠 <span>Admin — manage system</span></div>
+          <div className="auth-feature-item">📱 <span>Phone number is enough</span></div>
         </div>
       </div>
 
@@ -41,11 +41,7 @@ function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
               <label>Select Your Role *</label>
               <div className="role-selector">
                 {ROLES.map(r => (
-                  <div
-                    key={r.value}
-                    className={`role-card ${authForm.role === r.value ? "active" : ""}`}
-                    onClick={() => onAuthFormChange({ ...authForm, role: r.value })}
-                  >
+                  <div key={r.value} className={`role-card ${authForm.role === r.value ? "active" : ""}`} onClick={() => onAuthFormChange({ ...authForm, role: r.value })}>
                     <span className="role-icon">{r.icon}</span>
                     <strong>{r.label}</strong>
                     <small>{r.desc}</small>
@@ -63,18 +59,18 @@ function RegisterPage({ authForm, onAuthFormChange, onSubmit, onNavigate }) {
             </div>
 
             <div className="auth-field">
-              <label>📱 Phone <span style={{color:"#888",fontSize:"12px"}}>(required if no email)</span></label>
+              <label>📱 Phone Number *</label>
               <div className="auth-input-wrap">
                 <span className="auth-input-icon">📱</span>
-                <input type="tel" placeholder="+251 9XX XXX XXXX" value={authForm.phone || ""} onChange={e => onAuthFormChange({ ...authForm, phone: e.target.value })} />
+                <input type="tel" placeholder="+251 9XX XXX XXXX" value={authForm.phone || ""} onChange={e => onAuthFormChange({ ...authForm, phone: e.target.value })} required />
               </div>
             </div>
 
             <div className="auth-field">
-              <label>{t("email")} <span style={{color:"#888",fontSize:"12px"}}>(optional)</span></label>
+              <label>✉️ Email <span style={{ color: "#888", fontSize: "12px" }}>(optional)</span></label>
               <div className="auth-input-wrap">
                 <span className="auth-input-icon">✉️</span>
-                <input type="email" placeholder="you@example.com" value={authForm.email} onChange={e => onAuthFormChange({ ...authForm, email: e.target.value })} />
+                <input type="email" placeholder="you@example.com (optional)" value={authForm.email} onChange={e => onAuthFormChange({ ...authForm, email: e.target.value })} />
               </div>
             </div>
 
