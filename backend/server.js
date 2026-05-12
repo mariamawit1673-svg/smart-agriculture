@@ -31,7 +31,7 @@ app.use("/api/advisory", advisoryRoutes);
 app.use("/api/weather", weatherRoutes);
 app.use("/api/market", marketRoutes);
 
-mongoose.connect("mongodb://127.0.0.1:27017/smart_agriculture")
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/smart_agriculture")
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
 
