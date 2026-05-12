@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLang } from "../LanguageContext";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 const CATEGORIES = ["all","Grain","Vegetable","Fruit","Legume","Root Crop","Cash Crop","Other"];
 const UNITS = ["kg","quintal","ton","piece","liter","bundle"];
 
