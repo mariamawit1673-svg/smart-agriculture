@@ -37,7 +37,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/smart_agriculture")
 
 app.get("/", (req, res) => { res.send("Smart Agriculture API Running"); });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0",() => {
     console.log("Server running on http://localhost:" + PORT);
     console.log("Weather route active: /api/weather");
 });
