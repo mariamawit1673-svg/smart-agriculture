@@ -9,5 +9,9 @@ services:
         sync: false
       - key: WEATHER_API_KEY
         value: bd5e378503939ddaee76f12ad7a97608
+      - key: JWT_SECRET
+        sync: false
       - key: NODE_ENV
         value: production
+      - key: CLIENT_URL
+        sync: false

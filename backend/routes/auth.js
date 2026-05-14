@@ -26,7 +26,13 @@ router.post("/register", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ name, email: email || null, phone: phone || null, password: hashedPassword, role });
+        const user = new User({ 
+            name, 
+            email: email || undefined,  // use undefined not null so sparse index works
+            phone: phone || undefined, 
+            password: hashedPassword, 
+            role 
+        });
         await user.save();
 
         res.status(201).json({

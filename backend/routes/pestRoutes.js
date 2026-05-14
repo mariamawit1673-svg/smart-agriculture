@@ -29,7 +29,9 @@ async function seedPests() {
     if (count === 0) { await Pest.insertMany(defaultPests); console.log("Pest knowledge base seeded."); }
   } catch (err) { console.log("Seeding error:", err.message); }
 }
-seedPests();
+const mongoose = require("mongoose");
+if (mongoose.connection.readyState === 1) { seedPests(); }
+else { mongoose.connection.once("open", seedPests); }
 
 router.post("/diagnose", async (req, res) => {
   try {

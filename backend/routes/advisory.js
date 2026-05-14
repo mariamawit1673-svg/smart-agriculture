@@ -15,13 +15,14 @@ const seeds = [
 ];
 
 async function seedAdvisories() {
-  const count = await Advisory.countDocuments();
-  if (count === 0) {
-    await Advisory.insertMany(seeds);
-    console.log("Advisory records seeded.");
-  }
+  try {
+    const count = await Advisory.countDocuments();
+    if (count === 0) { await Advisory.insertMany(seeds); console.log("Advisory records seeded."); }
+  } catch (err) { console.log("Advisory seeding error:", err.message); }
 }
-seedAdvisories();
+const mongoose = require("mongoose");
+if (mongoose.connection.readyState === 1) { seedAdvisories(); }
+else { mongoose.connection.once("open", seedAdvisories); }
 
 // GET /api/advisory?crop=&type=&status=&search=&from=&to=
 router.get("/", async (req, res) => {

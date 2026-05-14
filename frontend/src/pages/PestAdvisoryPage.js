@@ -1,6 +1,8 @@
 ﻿import { useCallback, useEffect, useState } from "react";
 import { API_BASE } from "../constants";
 
+const API = API_BASE;
+
 const CROPS = ["Maize", "Tomato", "Beans", "Rice", "Wheat", "Potato", "Cabbage", "Mango"];
 
 const RISK_STYLES = {
@@ -32,7 +34,7 @@ function SymptomChecker({ user }) {
     setSaved(false);
     setError("");
     try {
-      const res = await fetch(`http://localhost:5000/api/pests/diagnose`, {
+      const res = await fetch(`${API}/pests/diagnose`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ crop, symptoms }),
@@ -48,7 +50,7 @@ function SymptomChecker({ user }) {
 
   async function handleSave() {
     try {
-      await fetch(`http://localhost:5000/api/pests/reports`, {
+      await fetch(`${API}/pests/reports`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -149,7 +151,7 @@ function PestLibrary() {
       const params = new URLSearchParams();
       if (search) params.set("search", search);
       if (cropFilter !== "all") params.set("crop", cropFilter);
-      const res = await fetch(`http://localhost:5000/api/pests?${params}`);
+      const res = await fetch(`${API}/pests?${params}`);
       const data = await res.json();
       setPests(Array.isArray(data) ? data : []);
     } catch { setPests([]); }
@@ -163,7 +165,7 @@ function PestLibrary() {
 
   useEffect(() => {
     if (!cropFilter || cropFilter === "all") { setRiskInfo(null); return; }
-    fetch(`http://localhost:5000/api/pests/risk/${encodeURIComponent(cropFilter)}`)
+    fetch(`${API}/pests/risk/${encodeURIComponent(cropFilter)}`)
       .then((r) => r.json()).then(setRiskInfo).catch(() => setRiskInfo(null));
   }, [cropFilter]);
 
@@ -256,7 +258,7 @@ function MyReports({ user }) {
     setLoading(true);
     try {
       const params = user?.id ? `?userId=${user.id}` : "";
-      const res = await fetch(`http://localhost:5000/api/pests/reports${params}`);
+      const res = await fetch(`${API}/pests/reports${params}`);
       const data = await res.json();
       setReports(Array.isArray(data) ? data : []);
     } catch { setReports([]); }
@@ -267,7 +269,7 @@ function MyReports({ user }) {
 
   async function updateStatus(id, status) {
     try {
-      await fetch(`http://localhost:5000/api/pests/reports/${id}/status`, {
+      await fetch(`${API}/pests/reports/${id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
