@@ -13,13 +13,7 @@ function AdminPage({ isAdmin, crops, cropForm, onCropFormChange, onAddCrop, onDe
   const [stats, setStats] = useState({ users: 0, products: 0, orders: 0, crops: 0, recommendations: 0 });
   const [loading, setLoading] = useState(false);
   const [flash, setFlash] = useState("");
-
-  useEffect(() => {
-    if (!isAdmin) return;
-    loadAll();
-  }, [isAdmin, loadAll]);
-
-  const loadAll = useCallback(async function() {
+const loadAll = useCallback(async function() {
     setLoading(true);
     try {
       const [u, p, o, h] = await Promise.all([
@@ -42,6 +36,12 @@ function AdminPage({ isAdmin, crops, cropForm, onCropFormChange, onAddCrop, onDe
     } catch (e) { /* silent */ }
     setLoading(false);
   }, [crops]);
+  useEffect(() => {
+    if (!isAdmin) return;
+    loadAll();
+  }, [isAdmin, loadAll]);
+
+  
 
   async function deleteProduct(id) {
     if (!window.confirm("Remove this product?")) return;
