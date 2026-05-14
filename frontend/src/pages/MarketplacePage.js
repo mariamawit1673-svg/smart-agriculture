@@ -64,16 +64,16 @@ var loadOrders = function() {
     .catch(function() {});
 };
 
-var loadPrices = function() {
-  fetch(API + "/market/prices")
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      setPrices(d || {});
-    })
-    .catch(function() {});
-};
+//var loadPrices = function() {
+ // fetch(API + "/market/prices")
+ //   .then(function(r) { return r.json(); })
+ //   .then(function(d) {
+ //     setPrices(d || {});
+ //   })
+ //   .catch(function() {});
+//};
 
-useEffect(function() {
+useEffect(function () {
   setLoading(true);
 
   var q = new URLSearchParams();
@@ -81,49 +81,47 @@ useEffect(function() {
   if (cat !== "all") q.set("category", cat);
 
   fetch(API + "/market?" + q.toString())
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
       setProducts(Array.isArray(d) ? d : []);
     })
-    .catch(function() {
+    .catch(function () {
       setProducts([]);
     })
-    .finally(function() {
+    .finally(function () {
       setLoading(false);
     });
 
   fetch(API + "/market/prices")
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
       setPrices(d || {});
     })
-    .catch(function() {});
+    .catch(function () {});
 }, [search, cat]);
 
-useEffect(function() {
+useEffect(function () {
   if (!user || !user.id) return;
+  if (tab !== "listings") return;
 
-  if (tab === "listings") {
-    fetch(API + "/market?userId=" + user.id)
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        setMine(Array.isArray(d) ? d : []);
-      })
-      .catch(function() {});
-  }
+  fetch(API + "/market?userId=" + user.id)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      setMine(Array.isArray(d) ? d : []);
+    })
+    .catch(function () {});
 }, [tab, user]);
 
-useEffect(function() {
+useEffect(function () {
   if (!user || !user.id) return;
+  if (tab !== "orders") return;
 
-  if (tab === "orders") {
-    fetch(API + "/market/orders?userId=" + user.id)
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        setOrders(Array.isArray(d) ? d : []);
-      })
-      .catch(function() {});
-  }
+  fetch(API + "/market/orders?userId=" + user.id)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      setOrders(Array.isArray(d) ? d : []);
+    })
+    .catch(function () {});
 }, [tab, user]);
 
 function setF(key, val) { setForm(function(f) { return Object.assign({}, f, {[key]: val}); }); }
