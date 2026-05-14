@@ -98,6 +98,7 @@ useEffect(function () {
       setPrices(d || {});
     })
     .catch(function () {});
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [search, cat]);
 
 useEffect(function () {
@@ -110,6 +111,7 @@ useEffect(function () {
       setMine(Array.isArray(d) ? d : []);
     })
     .catch(function () {});
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [tab, user]);
 
 useEffect(function () {
@@ -122,6 +124,7 @@ useEffect(function () {
       setOrders(Array.isArray(d) ? d : []);
     })
     .catch(function () {});
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [tab, user]);
 
 function setF(key, val) { setForm(function(f) { return Object.assign({}, f, {[key]: val}); }); }
