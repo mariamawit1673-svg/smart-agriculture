@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState} from "react";
 import { API_BASE } from "../constants";
 
 var API = API_BASE;
@@ -21,47 +21,74 @@ function MarketplacePage(props) {
   var s13 = useState(null); var modal = s13[0]; var setModal = s13[1];
   var CATS = ["all","Grain","Vegetable","Fruit","Legume","Root Crop","Cash Crop","Other"];
   var UNITS = ["kg","quintal","ton","piece","liter","bundle"];
+var loadProducts = function() {
+  setLoading(true);
 
-  var loadProducts = useCallback(function() {
-    setLoading(true);
-    var q = new URLSearchParams();
-    if (search) q.set("search", search);
-    if (cat !== "all") q.set("category", cat);
-    fetch(API + "/market?" + q.toString())
-      .then(function(r) { return r.json(); })
-      .then(function(d) { setProducts(Array.isArray(d) ? d : []); })
-      .catch(function() { setProducts([]); })
-      .finally(function() { setLoading(false); });
-  }, [search, cat]);
+  var q = new URLSearchParams();
 
-  var loadMine = useCallback(function() {
-    if (!user || !user.id) return;
-    fetch(API + "/market?userId=" + user.id)
-      .then(function(r) { return r.json(); })
-      .then(function(d) { setMine(Array.isArray(d) ? d : []); })
-      .catch(function() {});
-  }, [user]);
+  if (search) q.set("search", search);
+  if (cat !== "all") q.set("category", cat);
 
-  var loadOrders = useCallback(function() {
-    if (!user || !user.id) return;
-    fetch(API + "/market/orders?userId=" + user.id)
-      .then(function(r) { return r.json(); })
-      .then(function(d) { setOrders(Array.isArray(d) ? d : []); })
-      .catch(function() {});
-  }, [user]);
+  fetch(API + "/market?" + q.toString())
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      setProducts(Array.isArray(d) ? d : []);
+    })
+    .catch(function() {
+      setProducts([]);
+    })
+    .finally(function() {
+      setLoading(false);
+    });
+};
 
-  var loadPrices = useCallback(function() {
-    fetch(API + "/market/prices")
-      .then(function(r) { return r.json(); })
-      .then(function(d) { setPrices(d || {}); })
-      .catch(function() {});
-  }, []);
+var loadMine = function() {
+  if (!user || !user.id) return;
 
-  useEffect(function() { loadProducts(); loadPrices(); }, [loadProducts, loadPrices]);
-  useEffect(function() { if (tab === "listings") loadMine(); }, [tab, loadMine]);
-  useEffect(function() { if (tab === "orders") loadOrders(); }, [tab, loadOrders]);
+  fetch(API + "/market?userId=" + user.id)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      setMine(Array.isArray(d) ? d : []);
+    })
+    .catch(function() {});
+};
 
-  function setF(key, val) { setForm(function(f) { return Object.assign({}, f, {[key]: val}); }); }
+var loadOrders = function() {
+  if (!user || !user.id) return;
+
+  fetch(API + "/market/orders?userId=" + user.id)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      setOrders(Array.isArray(d) ? d : []);
+    })
+    .catch(function() {});
+};
+
+var loadPrices = function() {
+  fetch(API + "/market/prices")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      setPrices(d || {});
+    })
+    .catch(function() {});
+};
+
+useEffect(function() {
+  loadProducts();
+  loadPrices();
+}, [search, cat]);
+
+useEffect(function() {
+  if (tab === "listings") {
+    loadMine();
+  }
+}, [tab, user]);
+
+useEffect(function() {
+  if (tab === "orders") {
+    loadOrders();
+  }
+}, [tab, user]);  function setF(key, val) { setForm(function(f) { return Object.assign({}, f, {[key]: val}); }); }
 
   function getSuggest(name) {
     if (!name) { setSuggest(null); return; }
