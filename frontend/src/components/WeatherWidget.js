@@ -14,11 +14,26 @@ export default function WeatherWidget({ onWeatherReady }) {
     if (navigator.geolocation) {
       setLoading(true);
       navigator.geolocation.getCurrentPosition(
-        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+        async (pos) => {
+          setLoading(true);
+          setError("");
+          try {
+            const params = `lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`;
+            const res = await fetch(`${API_BASE}/weather?${params}`);
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed");
+            setWeather(data);
+            if (onWeatherReady) onWeatherReady(data);
+          } catch {
+            setError("Could not fetch weather. Check backend or city name.");
+          } finally {
+            setLoading(false);
+          }
+        },
         () => { setLoading(false); setError("Location access denied. Enter a city manually."); }
       );
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function fetchWeather(lat, lon, city) {
     setLoading(true);

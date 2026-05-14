@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SelectField from "../components/SelectField";
 import { API_BASE, rainfallOptions, temperatureOptions, waterOptions } from "../constants";
 
@@ -17,9 +17,9 @@ function AdminPage({ isAdmin, crops, cropForm, onCropFormChange, onAddCrop, onDe
   useEffect(() => {
     if (!isAdmin) return;
     loadAll();
-  }, [isAdmin]);
+  }, [isAdmin, loadAll]);
 
-  async function loadAll() {
+  const loadAll = useCallback(async function() {
     setLoading(true);
     try {
       const [u, p, o, h] = await Promise.all([
@@ -41,7 +41,7 @@ function AdminPage({ isAdmin, crops, cropForm, onCropFormChange, onAddCrop, onDe
       });
     } catch (e) { /* silent */ }
     setLoading(false);
-  }
+  }, [crops]);
 
   async function deleteProduct(id) {
     if (!window.confirm("Remove this product?")) return;
